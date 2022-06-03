@@ -25,4 +25,4 @@ export default multer({
 			cb(null, newName)
 		},
 	}),
-}).single('image')
+}).single('attendance')

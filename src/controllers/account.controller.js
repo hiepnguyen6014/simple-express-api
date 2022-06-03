@@ -1,9 +1,9 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
-import isValidPayload from '../utils/validator'
-import accountRepos from '../repos/accountRepos'
+import { isValidPayload } from '../utils'
+import { AccountServices } from '../services'
 
-class accountController {
+class AccountController {
 	// [POST] /api/account/register
 	async register(req, res) {
 		//check payload
@@ -17,7 +17,7 @@ class accountController {
 		const { email, password } = req.body
 
 		//check account exist
-		const isExist = await accountRepos.isExist(email)
+		const isExist = await AccountServices.isExist(email)
 		if (isExist) {
 			res.header('Content-Type', 'application/json')
 			res.status(400)
@@ -25,7 +25,7 @@ class accountController {
 		}
 
 		//create account
-		const account = await accountRepos.create(email, password)
+		const account = await AccountServices.create(email, password)
 
 		if (!account) {
 			res.header('Content-Type', 'application/json')
@@ -33,7 +33,7 @@ class accountController {
 			return res.json({ status: false, message: 'create account failed' })
 		}
 
-		const token = await accountRepos.createToken(account._id)
+		const token = await AccountServices.createToken(account._id)
 
 		res.header('Content-Type', 'application/json')
 		res.status(201)
@@ -52,7 +52,7 @@ class accountController {
 		const { email, password } = req.body
 
 		//find account
-		const account = await accountRepos.findOne(email)
+		const account = await AccountServices.findOne(email)
 		if (!account) {
 			res.header('Content-Type', 'application/json')
 			res.status(400)
@@ -67,7 +67,7 @@ class accountController {
 			return res.json({ status: false, message: 'wrong account' })
 		}
 
-		const token = await accountRepos.createToken(account._id)
+		const token = await AccountServices.createToken(account._id)
 
 		res.header('Content-Type', 'application/json')
 		res.status(200)
@@ -75,4 +75,4 @@ class accountController {
 	}
 }
 
-export default new accountController()
+export default new AccountController()

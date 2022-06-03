@@ -1,28 +1,13 @@
 import express from 'express'
-import morgan from 'morgan'
-import path from 'path'
-import cors from 'cors'
-import rateLimit from 'express-rate-limit'
 
-import database from './configs/db'
-import routes from './routes'
-database()
+import { initDatabase, setMiddleware } from './configs'
+import { setRoutes } from './routes'
 
 const app = express()
 
-app.use(
-	rateLimit({
-		windowMs: 15 * 60 * 1000, // 15 minutes
-		max: 100, // 100 requests
-	})
-)
-app.use(morgan('short'))
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static(path.join(__dirname, '..', 'public')))
-
-routes(app)
+setMiddleware(app)
+initDatabase()
+setRoutes(app)
 
 const { PORT } = process.env || 3000
 

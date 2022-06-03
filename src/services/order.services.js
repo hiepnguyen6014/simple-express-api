@@ -1,6 +1,6 @@
-import Order from '../models/order'
+import Order from '../models/Order'
 
-class orderRepos {
+class OrderServices {
 	async getAll() {
 		return await Order.find()
 	}
@@ -18,4 +18,4 @@ class orderRepos {
 	}
 }
 
-export default new orderRepos()
+export default new OrderServices()

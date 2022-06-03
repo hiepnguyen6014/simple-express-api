@@ -1,6 +1,6 @@
 import { body } from 'express-validator'
 
-class accountValidator {
+class AccountPayload {
 	register() {
 		return [
 			body('email').isEmail().withMessage('Email is invalid or not provided with key email.'),
@@ -24,4 +24,4 @@ class accountValidator {
 	}
 }
 
-export default new accountValidator()
+export default new AccountPayload()

@@ -1,8 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 
-async function deleteFile(fileName) {
-	const deletePath = path.join(__dirname, '..', '..', 'public', 'images', fileName)
+export default async (fileName) => {
+	const deletePath = path.join(__dirname, '../../public/images/' + fileName)
 
 	return await new Promise((resolve, reject) => {
 		fs.unlink(deletePath, (err) => {
@@ -14,5 +14,3 @@ async function deleteFile(fileName) {
 		})
 	})
 }
-
-export default deleteFile

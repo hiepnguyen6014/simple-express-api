@@ -1,6 +1,6 @@
 import { check, param } from 'express-validator'
 
-class orderValidator {
+class OrderPayload {
 	getOne() {
 		return [check('id').isMongoId().withMessage('id must be a mongo id')]
 	}
@@ -39,4 +39,4 @@ class orderValidator {
 	}
 }
 
-export default new orderValidator()
+export default new OrderPayload()

@@ -1,6 +1,6 @@
 import { validationResult } from 'express-validator'
 
-async function isValidPayload(req) {
+export default async (req) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
 		return errors.errors[0].msg
@@ -8,5 +8,3 @@ async function isValidPayload(req) {
 		return true
 	}
 }
-
-export default isValidPayload

@@ -1,11 +1,11 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
-import Account from '../models/account'
+import Account from '../models/Account'
 
 const { SECRET_KEY_JWT } = process.env
 
-class accountRepos {
+class AccountServices {
 	async createToken(id) {
 		return jwt.sign({ _id: id }, SECRET_KEY_JWT)
 	}
@@ -55,4 +55,4 @@ class accountRepos {
 	}
 }
 
-export default new accountRepos()
+export default new AccountServices()

@@ -1,10 +1,10 @@
-import { validator, deleteFile } from '../utils'
-import productRepos from '../repos/productRepos'
+import { isValidPayload, deleteFile } from '../utils'
+import { ProductServices } from '../services'
 
 class ProductController {
 	// [GET] /api/products
 	async getAll(req, res) {
-		const products = await productRepos.getAll()
+		const products = await ProductServices.getAll()
 
 		res.header('Content-Type', 'application/json')
 		res.status(200)
@@ -16,7 +16,7 @@ class ProductController {
 
 	// [GET] /api/products/:id
 	async getOne(req, res) {
-		const isValid = await validator(req)
+		const isValid = await isValidPayload(req)
 		if (isValid !== true) {
 			res.header('Content-Type', 'application/json')
 			res.status(400)
@@ -25,7 +25,7 @@ class ProductController {
 
 		const { id } = req.params
 
-		const product = await productRepos.getOne(id)
+		const product = await ProductServices.getOne(id)
 
 		if (!product) {
 			res.header('Content-Type', 'application/json')
@@ -43,7 +43,7 @@ class ProductController {
 
 	// [POST] /api/products
 	async create(req, res) {
-		const isValid = await validator(req)
+		const isValid = await isValidPayload(req)
 		if (isValid !== true) {
 			res.header('Content-Type', 'application/json')
 			res.status(400)
@@ -59,7 +59,7 @@ class ProductController {
 		const { filename } = req.file
 		const { name, price, description } = req.body
 
-		const product = await productRepos.create(name, price, description, filename)
+		const product = await ProductServices.create(name, price, description, filename)
 
 		if (!product) {
 			res.header('Content-Type', 'application/json')
@@ -77,7 +77,7 @@ class ProductController {
 
 	// [PUT] /api/products/:id
 	async update(req, res) {
-		const isValid = await validator(req)
+		const isValid = await isValidPayload(req)
 		if (isValid !== true) {
 			res.header('Content-Type', 'application/json')
 			res.status(400)
@@ -87,7 +87,7 @@ class ProductController {
 		const { id } = req.params
 		const { name, price, description } = req.body
 
-		const product = await productRepos.getOne(id)
+		const product = await ProductServices.getOne(id)
 
 		if (!product) {
 			res.header('Content-Type', 'application/json')
@@ -95,7 +95,7 @@ class ProductController {
 			return res.json({ status: false, message: 'product not found' })
 		}
 
-		const updatedProduct = await productRepos.update(id, name, price, description)
+		const updatedProduct = await ProductServices.update(id, name, price, description)
 
 		if (!updatedProduct) {
 			res.header('Content-Type', 'application/json')
@@ -113,7 +113,7 @@ class ProductController {
 
 	// [DELETE] /api/products/:id
 	async delete(req, res) {
-		const idValid = await validator(req)
+		const idValid = await isValidPayload(req)
 		if (idValid !== true) {
 			res.header('Content-Type', 'application/json')
 			res.status(400)
@@ -122,7 +122,7 @@ class ProductController {
 
 		const { id } = req.params
 
-		const product = await productRepos.delete(id)
+		const product = await ProductServices.delete(id)
 		const image = product.image
 
 		if (!image) {

@@ -1,6 +1,6 @@
-import accountRepos from '../repos/accountRepos'
+import accountRepos from '../services/account.services'
 
-const authentication = (req, res, next) => {
+export default (req, res, next) => {
 	//get Bearer token from header
 	const bearerToken = req.headers.authorization
 	if (!bearerToken) {
@@ -27,5 +27,3 @@ const authentication = (req, res, next) => {
 
 	next()
 }
-
-export default authentication

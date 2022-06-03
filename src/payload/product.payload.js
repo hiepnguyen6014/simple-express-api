@@ -1,6 +1,6 @@
 import { check, param } from 'express-validator'
 
-class productValidator {
+class ProductPayload {
 	getOne() {
 		return [param('id').isMongoId().withMessage('id must be a mongo id')]
 	}
@@ -33,4 +33,4 @@ class productValidator {
 	}
 }
 
-export default new productValidator()
+export default new ProductPayload()

@@ -1,6 +1,6 @@
-import Product from '../models/product'
+import Product from '../models/Product'
 
-class productRepos {
+class ProductServices {
 	async getAll() {
 		return await Product.find()
 	}
@@ -22,4 +22,4 @@ class productRepos {
 	}
 }
 
-export default new productRepos()
+export default new ProductServices()

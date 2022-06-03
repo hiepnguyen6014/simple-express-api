@@ -1,9 +1,8 @@
-import { MulterError } from 'multer'
-import accountRoute from './accountRoute'
-import productRoute from './productRoute'
-import orderRoute from './orderRoute'
+import accountRoute from './account.route'
+import productRoute from './product.route'
+import orderRoute from './order.route'
 
-function routes(app) {
+export const setRoutes = (app) => {
 	app.use('/api/account', accountRoute)
 	app.use('/api/products', productRoute)
 	app.use('/api/orders', orderRoute)
@@ -13,12 +12,6 @@ function routes(app) {
 	})
 
 	app.use((err, req, res, next) => {
-		if (err instanceof MulterError) {
-			res.status(500).json({ status: 'error', message: err })
-		} else {
-			res.status(500).json({ status: 'error', message: err.message })
-		}
+		res.status(500).json({ status: 'error', message: err.message })
 	})
 }
-
-export default routes

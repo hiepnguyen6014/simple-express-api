@@ -1,2 +1,2 @@
-export { default as validator } from './validator'
+export { default as isValidPayload } from './isValidPayload'
 export { default as deleteFile } from './deleteFile'

@@ -1,10 +1,10 @@
-import { validator } from '../utils'
-import orderRepos from '../repos/orderRepos'
+import { isValidPayload } from '../utils'
+import { OrderServices } from '../services'
 
 class OrderController {
 	// [GET] /api/orders
 	async getAll(req, res) {
-		const orders = await orderRepos.getAll()
+		const orders = await OrderServices.getAll()
 
 		res.header('Content-Type', 'application/json')
 		res.status(200)
@@ -16,7 +16,7 @@ class OrderController {
 
 	// [GET] /api/orders/:id
 	async getOne(req, res) {
-		const isValid = await validator(req)
+		const isValid = await isValidPayload(req)
 		if (isValid !== true) {
 			res.header('Content-Type', 'application/json')
 			res.status(400)
@@ -25,7 +25,7 @@ class OrderController {
 
 		const { id } = req.params
 
-		const order = await orderRepos.getOne(id)
+		const order = await OrderServices.getOne(id)
 
 		if (!order) {
 			res.header('Content-Type', 'application/json')
@@ -43,7 +43,7 @@ class OrderController {
 
 	// [POST] /api/orders
 	async create(req, res) {
-		const isValid = await validator(req)
+		const isValid = await isValidPayload(req)
 		if (isValid !== true) {
 			res.header('Content-Type', 'application/json')
 			res.status(400)
@@ -52,7 +52,7 @@ class OrderController {
 
 		const { user, products, total } = req.body
 
-		const order = await orderRepos.create(total, user, products)
+		const order = await OrderServices.create(total, user, products)
 
 		if (!order) {
 			res.header('Content-Type', 'application/json')
@@ -82,7 +82,7 @@ class OrderController {
 
 	// [DELETE] /api/orders/:id
 	async delete(req, res) {
-		const isValid = await validator(req)
+		const isValid = await isValidPayload(req)
 		if (isValid !== true) {
 			res.header('Content-Type', 'application/json')
 			res.status(400)
@@ -91,7 +91,7 @@ class OrderController {
 
 		const { id } = req.params
 
-		const order = await orderRepos.getOne(id)
+		const order = await OrderServices.getOne(id)
 
 		if (!order) {
 			res.header('Content-Type', 'application/json')
@@ -99,7 +99,7 @@ class OrderController {
 			return res.json({ status: false, message: 'order not found' })
 		}
 
-		const deletedOrder = await orderRepos.delete(id)
+		const deletedOrder = await OrderServices.delete(id)
 
 		if (!deletedOrder) {
 			res.header('Content-Type', 'application/json')
